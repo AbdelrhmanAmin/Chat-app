@@ -17,6 +17,7 @@ const Header = () => {
       >
         <Stack direction="row" align="center" justify="start">
           <Text>[Logo]</Text>
+          {user && <Text>{user.name}</Text>}
         </Stack>
         <Stack direction="row" align="center" justify="end">
           {user && (
