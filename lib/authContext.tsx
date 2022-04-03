@@ -8,6 +8,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { createUser } from "./db";
+
 const auth = getAuth(firebase);
 
 const initialState = {

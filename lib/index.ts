@@ -1,4 +1,5 @@
-export { useAuth, AuthProvider } from "./authProvider";
+export { useAuth, AuthProvider } from "./authContext";
+export { useChat, ChatProvider } from "./chatContext";
 
 export interface IUser {
   id: string | number;
