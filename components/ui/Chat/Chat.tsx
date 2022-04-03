@@ -42,6 +42,7 @@ const Chat = () => {
         width="100%"
         onSubmit={async (e) => {
           e.preventDefault();
+          if (inputRef.current.value === "") return;
           await handleAddMessage(inputRef.current.value);
           lastRef.current.scrollIntoView({ behavior: "smooth" });
           inputRef.current.value = "";

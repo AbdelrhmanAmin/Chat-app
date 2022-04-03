@@ -21,7 +21,7 @@ export const createMessage = async (message: string, user: IUser) => {
     message,
     createdAt: Date.now(),
     userId: user.id,
-    userPhoto: user.photoURL,
+    photoURL: user.photoURL,
     provider: user.provider,
   });
 };
@@ -35,7 +35,7 @@ export const createUser = async (user: IUser) => {
 export const getAllMessages = async () => {
   const messagesRef = query(
     collection(db, "messages"),
-    orderBy("createdAt"),
+    orderBy("createdAt", "asc"),
     limit(25)
   );
   const messagesSnapShot = await getDocs(messagesRef);
