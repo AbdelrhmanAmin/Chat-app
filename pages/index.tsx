@@ -8,10 +8,12 @@ import {
   ListItem,
   Button,
   Input,
+  Stack,
+  Box,
+  Icon,
 } from "@chakra-ui/react";
-import { CheckCircleIcon, LinkIcon } from "@chakra-ui/icons";
 import { useAuth, useChat } from "lib";
-import { createMessage } from "lib/db";
+import { GithubIcon, GoogleIcon } from "@components/icons";
 
 const Index = () => {
   const { user, signInWithGitHub, signInWithGoogle, signOut } = useAuth();
@@ -19,27 +21,24 @@ const Index = () => {
   const { messages, handleAddMessage } = useChat();
   return (
     <>
-      <Button onClick={signInWithGitHub}>Github</Button>
-      <Button onClick={signInWithGoogle}>Google</Button>
-
-      <List>
-        {messages.map(({ message }, i) => {
-          return (
-            <ListItem key={i}>
-              <Text>{message}</Text>
-            </ListItem>
-          );
-        })}
-      </List>
-      <>
-        <Button onClick={signOut}>Sign Out</Button>
-        <Input
-          type="text"
-          name="msg"
-          onChange={({ target: { value } }) => setMessage(value)}
-        />
-        <Button onClick={() => handleAddMessage(message)}>Send Msg</Button>
-      </>
+      {user ? (
+        <>
+          <Button>Start Chatting</Button>
+        </>
+      ) : (
+        <Stack direction={"column"} spacing="2px">
+          <Box>
+            <Button rightIcon={<GithubIcon />} onClick={signInWithGitHub}>
+              Sign in with GitHub
+            </Button>
+          </Box>
+          <Box>
+            <Button rightIcon={<GoogleIcon />} onClick={signInWithGoogle}>
+              Sign in with Google
+            </Button>
+          </Box>
+        </Stack>
+      )}
     </>
   );
 };
