@@ -21,7 +21,8 @@ export const createMessage = async (message: string, user: IUser) => {
     message,
     createdAt: Date.now(),
     userId: user.id,
-    ...user,
+    userPhoto: user.photoURL,
+    provider: user.provider,
   });
 };
 

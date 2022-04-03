@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useAuth, useChat } from "lib";
 import { GithubIcon, GoogleIcon } from "@components/icons";
+import { Chat } from "@components/ui";
 
 const Index = () => {
   const { user, signInWithGitHub, signInWithGoogle, signOut } = useAuth();
@@ -29,7 +30,7 @@ const Index = () => {
     >
       {user ? (
         <>
-          <Button>🔥 Start Chatting</Button>
+          <Chat />
         </>
       ) : (
         <Stack direction={"column"} spacing="8px">
