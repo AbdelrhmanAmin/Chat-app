@@ -22,8 +22,8 @@ const Index = () => {
   return (
     <Flex
       direction="column"
-      width="100vw"
-      height="100vh"
+      width="100%"
+      height="100%"
       justify="center"
       alignItems="center"
     >
@@ -37,6 +37,7 @@ const Index = () => {
             <Button
               rightIcon={<GithubIcon />}
               colorScheme="gray"
+              _focus={{ bg: "blue.900", transform: "scale(0.95)" }}
               onClick={signInWithGitHub}
             >
               Sign in with GitHub
@@ -46,6 +47,8 @@ const Index = () => {
             <Button
               rightIcon={<GoogleIcon />}
               bgColor="Highlight"
+              _hover={{ bg: "blue.900" }}
+              _focus={{ bg: "blue.900", transform: "scale(0.95)" }}
               textColor="white"
               onClick={signInWithGoogle}
             >
