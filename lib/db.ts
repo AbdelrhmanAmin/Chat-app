@@ -15,7 +15,6 @@ import { IUser } from "@lib";
 const db = getFirestore(firebase);
 
 export const createMessage = async (message: string, user: IUser) => {
-  console.log(message, user);
   if (!user) return;
   return await addDoc(collection(db, "messages"), {
     message,
@@ -23,6 +22,7 @@ export const createMessage = async (message: string, user: IUser) => {
     userId: user.id,
     photoURL: user.photoURL,
     provider: user.provider,
+    userName: user.name,
   });
 };
 
