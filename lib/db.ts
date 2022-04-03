@@ -1,6 +1,11 @@
-// create message
 import firebase from "./firebase";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  setDoc,
+  doc,
+} from "firebase/firestore";
 import { IUser } from "@lib";
 
 const db = getFirestore(firebase);
@@ -8,9 +13,14 @@ const db = getFirestore(firebase);
 export const createMessage = async (message: string, user: IUser) => {
   return await addDoc(collection(db, "messages"), {
     message,
-    createdAt: new Date(),
-    id: user.id,
-    imageURL: user.imageURL,
+    userId: user.id,
+    ...user,
+  });
+};
+
+export const createUser = async (user: IUser) => {
+  return await setDoc(doc(db, "users", `${user.id}`), user, {
+    merge: true,
   });
 };
 
