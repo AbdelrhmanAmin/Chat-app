@@ -47,9 +47,10 @@ const Index = () => {
           <Box>
             <Button
               rightIcon={<GoogleIcon />}
-              bgColor="Highlight"
-              _hover={{ bg: "blue.900" }}
-              _focus={{ bg: "blue.900", transform: "scale(0.95)" }}
+              bgColor="blue.400"
+              _hover={{ bg: "blue.600" }}
+              _focus={{ bg: "blue.600", transform: "scale(0.95)" }}
+              _active={{ bg: "blue.600", transform: "scale(0.95)" }}
               textColor="white"
               onClick={signInWithGoogle}
             >
