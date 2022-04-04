@@ -39,7 +39,10 @@ const Index = () => {
               rightIcon={<GithubIcon />}
               colorScheme="gray"
               _focus={{ bg: "blue.900", transform: "scale(0.95)" }}
-              onClick={signInWithGitHub}
+              onClick={(e) => {
+                e.currentTarget.blur();
+                signInWithGitHub();
+              }}
             >
               Sign in with GitHub
             </Button>
@@ -52,7 +55,10 @@ const Index = () => {
               _focus={{ bg: "blue.600", transform: "scale(0.95)" }}
               _active={{ bg: "blue.600", transform: "scale(0.95)" }}
               textColor="white"
-              onClick={signInWithGoogle}
+              onClick={(e) => {
+                e.currentTarget.blur();
+                signInWithGoogle();
+              }}
             >
               Sign in with Google
             </Button>
