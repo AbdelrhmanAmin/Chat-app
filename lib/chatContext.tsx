@@ -19,7 +19,16 @@ const ChatProvider = ({ children }) => {
   };
 
   const handleAddMessage = async (message: string) => {
-    setMessages([...messages, { message, ...user, createdAt: Date.now() }]);
+    setMessages([
+      ...messages,
+      {
+        message,
+        userId: user.id,
+        userName: user.name,
+        ...user,
+        createdAt: Date.now(),
+      },
+    ]);
     await createMessage(message, user);
   };
   React.useEffect(() => {
