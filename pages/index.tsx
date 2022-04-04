@@ -1,24 +1,11 @@
 import React from "react";
-import {
-  Link as ChakraLink,
-  Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-  Button,
-  Input,
-  Stack,
-  Box,
-  Icon,
-  Flex,
-} from "@chakra-ui/react";
-import { useAuth, useChat } from "lib";
+import { Button, Stack, Box, Flex } from "@chakra-ui/react";
+import { useAuth } from "lib";
 import { GithubIcon, GoogleIcon } from "@components/icons";
 import { Chat } from "@components/ui";
 
 const Index = () => {
-  const { user, signInWithGitHub, signInWithGoogle, signOut } = useAuth();
+  const { user, signInWithGitHub, signInWithGoogle } = useAuth();
 
   return (
     <Flex
