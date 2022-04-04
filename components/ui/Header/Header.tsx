@@ -16,7 +16,23 @@ const Header = () => {
         justify="space-between"
       >
         <Stack direction="row" align="center" justify="start">
-          <Text>[🔥]</Text>
+          <Link
+            textDecoration="none"
+            _hover={{ textDecoration: "none" }}
+            href="https://github.com/AbdelrhmanAmin"
+            isExternal
+          >
+            <Button
+              bgColor="yellow.500"
+              _hover={{ bg: "yellow.400" }}
+              _focus={{ bg: "yellow.400", transform: "scale(0.95)" }}
+              _active={{ bg: "yellow.400", transform: "scale(0.95)" }}
+              size="md"
+              px="0"
+            >
+              <span>🐺</span>
+            </Button>
+          </Link>
         </Stack>
         <Stack direction="row" align="center" justify="end">
           {user && (

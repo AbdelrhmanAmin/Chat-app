@@ -56,6 +56,7 @@ const Chat = () => {
         width="100%"
         height={{ base: "85vh", sm: "75vh" }}
         border="4px"
+        borderColor="yellow.400"
       >
         <Stack
           height="100%"
@@ -129,7 +130,7 @@ const Chat = () => {
                     margin="0"
                     fontSize={"md"}
                     rounded="lg"
-                    wordBreak="break-all"
+                    wordBreak="break-word"
                     width="fit-content"
                     display="flex"
                   >
@@ -165,7 +166,7 @@ const Chat = () => {
             />
             <Button
               width={{ base: "35%", sm: "15%" }}
-              bgColor="messenger.500"
+              bgColor="yellow.500"
               type="submit"
               rounded="none"
               roundedBottomRight="sm"
