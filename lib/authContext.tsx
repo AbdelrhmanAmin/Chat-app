@@ -6,6 +6,9 @@ import {
   signInWithPopup,
   getAuth,
   GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { createUser } from "./db";
 
@@ -22,7 +25,11 @@ const authContext = React.createContext(initialState);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = React.useState(null);
-
+  React.useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      handleUser(user);
+    });
+  }, []);
   const handleUser = (rawUser) => {
     if (rawUser) {
       const userData = formatUser(rawUser);
@@ -34,24 +41,30 @@ const AuthProvider = ({ children }) => {
   };
 
   const signInWithGitHub = async () => {
-    const provider = new GithubAuthProvider();
-    return signInWithPopup(auth, provider)
-      .then((result) => {
+    setPersistence(auth, browserLocalPersistence).then(async () => {
+      try {
+        const provider = new GithubAuthProvider();
+        const result = await signInWithPopup(auth, provider);
         // The signed-in user info.
         const user = result.user;
         handleUser(user);
-      })
-      .catch((err) => handleUser(null));
+      } catch (err) {
+        return handleUser(null);
+      }
+    });
   };
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider)
-      .then((result) => {
+    setPersistence(auth, browserLocalPersistence).then(async () => {
+      try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
         // The signed-in user info.
         const user = result.user;
         handleUser(user);
-      })
-      .catch((err) => handleUser(null));
+      } catch (err) {
+        return handleUser(null);
+      }
+    });
   };
 
   const signOut = () => {
@@ -61,7 +74,12 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  const contextValue = { user, signInWithGitHub, signInWithGoogle, signOut };
+  const contextValue = {
+    user,
+    signInWithGitHub,
+    signInWithGoogle,
+    signOut,
+  };
   return (
     <authContext.Provider value={contextValue}>{children}</authContext.Provider>
   );
