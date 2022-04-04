@@ -35,19 +35,23 @@ const AuthProvider = ({ children }) => {
 
   const signInWithGitHub = async () => {
     const provider = new GithubAuthProvider();
-    return signInWithPopup(auth, provider).then((result) => {
-      // The signed-in user info.
-      const user = result.user;
-      handleUser(user);
-    });
+    return signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        handleUser(user);
+      })
+      .catch((err) => handleUser(null));
   };
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider).then((result) => {
-      // The signed-in user info.
-      const user = result.user;
-      handleUser(user);
-    });
+    return signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        handleUser(user);
+      })
+      .catch((err) => handleUser(null));
   };
 
   const signOut = () => {
