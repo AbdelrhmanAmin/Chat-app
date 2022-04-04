@@ -44,7 +44,10 @@ const Chat = () => {
           textOverflow="ellipsis"
           width={{ base: "100%", md: "80%", lg: "50%" }}
         >
-          Hello, {user.name} ✌️
+          Hello,{" "}
+          <Text display="inline" fontWeight="black">
+            {user.name} 👻
+          </Text>
         </Text>
       )}
       <Stack
