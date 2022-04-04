@@ -1,10 +1,13 @@
 import React from "react";
 import { useAuth } from "@lib";
 import { getAllMessages, createMessage } from "./db";
+import { serverTimestamp } from "firebase/firestore";
 
 const initialState = {
   messages: [],
   handleAddMessage: (msg: string) => {},
+  isLoading: false,
+  handleGetMessages: () => {},
 };
 
 const chatContext = React.createContext(initialState);
@@ -12,10 +15,15 @@ const chatContext = React.createContext(initialState);
 const ChatProvider = ({ children }) => {
   const { user } = useAuth();
   const [messages, setMessages] = React.useState([]);
+  const quantity = React.useRef(10);
+  const [isLoading, setLoading] = React.useState(false);
 
   const handleGetMessages = async () => {
-    const messages = await getAllMessages();
-    setMessages(messages);
+    setLoading(true);
+    quantity.current += 10;
+    const data = await getAllMessages(quantity.current);
+    setMessages(data);
+    setLoading(false);
   };
 
   const handleAddMessage = async (message: string) => {
@@ -26,7 +34,7 @@ const ChatProvider = ({ children }) => {
         userId: user.id,
         userName: user.name,
         ...user,
-        createdAt: Date.now(),
+        createdAt: serverTimestamp(),
       },
     ]);
     await createMessage(message, user);
@@ -39,6 +47,8 @@ const ChatProvider = ({ children }) => {
   const contextValue = {
     messages,
     handleAddMessage,
+    isLoading,
+    handleGetMessages,
   };
   return (
     <chatContext.Provider value={contextValue}>{children}</chatContext.Provider>

@@ -9,6 +9,7 @@ import {
   getDocs,
   limit,
   orderBy,
+  serverTimestamp,
 } from "firebase/firestore";
 import { IUser } from "@lib";
 
@@ -18,7 +19,7 @@ export const createMessage = async (message: string, user: IUser) => {
   if (!user) return;
   return await addDoc(collection(db, "messages"), {
     message,
-    createdAt: Date.now(),
+    createdAt: serverTimestamp(),
     userId: user.id,
     photoURL: user.photoURL,
     provider: user.provider,
@@ -32,13 +33,14 @@ export const createUser = async (user: IUser) => {
   });
 };
 
-export const getAllMessages = async () => {
+export const getAllMessages = async (quantity = 10) => {
   const messagesRef = query(
     collection(db, "messages"),
     orderBy("createdAt", "asc"),
-    limit(25)
+    limit(quantity)
   );
   const messagesSnapShot = await getDocs(messagesRef);
   const allMessages = messagesSnapShot.docs.map((doc) => doc.data());
+  console.log(allMessages);
   return allMessages;
 };

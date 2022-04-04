@@ -4,6 +4,7 @@ import {
   Button,
   Flex,
   Input,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -11,10 +12,26 @@ import { useAuth, useChat } from "@lib";
 import React from "react";
 
 const Chat = () => {
-  const { messages, handleAddMessage } = useChat();
+  const { messages, handleAddMessage, isLoading, handleGetMessages } =
+    useChat();
   const { user } = useAuth();
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const firstRef = React.useRef<HTMLDivElement>(null);
   const lastRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(([{ isIntersecting }]) => {
+      if (isIntersecting) {
+        handleGetMessages();
+      }
+    });
+    if (lastRef.current) {
+      lastRef.current.scrollIntoView({ behavior: "smooth" });
+      if (firstRef.current) {
+        observer.observe(firstRef.current);
+      }
+    }
+  }, []);
   return (
     <Stack width={{ base: "100%", md: "80%", lg: "50%" }} direction="column">
       {user && (
@@ -39,9 +56,31 @@ const Chat = () => {
           height="100%"
           width="100%"
           overflowY="auto"
-          py={{ base: 4 }}
-          px={{ base: 4, md: 8 }}
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "12px",
+            },
+            "&::-webkit-scrollbar-track": {
+              width: "12px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "gray",
+            },
+          }}
+          p="4"
         >
+          {isLoading && (
+            <Flex justify="center">
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Flex>
+          )}
+          <div ref={firstRef} />
           {messages.map((message) => {
             return (
               <Stack
@@ -125,6 +164,7 @@ const Chat = () => {
               rounded="none"
               roundedBottomRight="sm"
               size="lg"
+              isLoading={isLoading}
             >
               Send
             </Button>
