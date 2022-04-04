@@ -17,7 +17,9 @@ const Chat = () => {
   const { user } = useAuth();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const firstRef = React.useRef<HTMLDivElement>(null);
+  const chatRef = React.useRef<HTMLDivElement>(null);
   const lastRef = React.useRef<HTMLDivElement>(null);
+  const isFirstRender = React.useRef(true);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(([{ isIntersecting }]) => {
@@ -25,13 +27,16 @@ const Chat = () => {
         handleGetMessages();
       }
     });
-    if (lastRef.current) {
-      lastRef.current.scrollIntoView({ behavior: "smooth" });
-      if (firstRef.current) {
-        observer.observe(firstRef.current);
-      }
+    if (firstRef.current) {
+      observer.observe(firstRef.current);
     }
   }, []);
+  React.useEffect(() => {
+    if (chatRef.current && isFirstRender.current && messages.length > 0) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+      isFirstRender.current = false;
+    }
+  }, [messages]);
   return (
     <Stack width={{ base: "100%", md: "80%", lg: "50%" }} direction="column">
       {user && (
@@ -56,6 +61,7 @@ const Chat = () => {
           height="100%"
           width="100%"
           overflowY="auto"
+          ref={chatRef}
           css={{
             "&::-webkit-scrollbar": {
               width: "12px",

@@ -36,11 +36,12 @@ export const createUser = async (user: IUser) => {
 export const getAllMessages = async (quantity = 10) => {
   const messagesRef = query(
     collection(db, "messages"),
-    orderBy("createdAt", "asc"),
+    orderBy("createdAt", "desc"),
     limit(quantity)
   );
   const messagesSnapShot = await getDocs(messagesRef);
   const allMessages = messagesSnapShot.docs.map((doc) => doc.data());
-  console.log(allMessages);
-  return allMessages;
+  const latestMessages = allMessages.reverse();
+
+  return latestMessages;
 };

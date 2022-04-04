@@ -15,13 +15,18 @@ const chatContext = React.createContext(initialState);
 const ChatProvider = ({ children }) => {
   const { user } = useAuth();
   const [messages, setMessages] = React.useState([]);
-  const quantity = React.useRef(10);
+  const quantity = React.useRef(0);
+  const messagesRef = React.useRef(messages);
+  const hasNoMoreMessages = React.useRef(false);
   const [isLoading, setLoading] = React.useState(false);
 
   const handleGetMessages = async () => {
+    if (hasNoMoreMessages.current) return;
+    quantity.current += 5;
     setLoading(true);
-    quantity.current += 10;
     const data = await getAllMessages(quantity.current);
+    hasNoMoreMessages.current = data.length === messagesRef.current.length;
+    messagesRef.current = data;
     setMessages(data);
     setLoading(false);
   };
@@ -33,8 +38,8 @@ const ChatProvider = ({ children }) => {
         message,
         userId: user.id,
         userName: user.name,
-        ...user,
         createdAt: serverTimestamp(),
+        ...user,
       },
     ]);
     await createMessage(message, user);
