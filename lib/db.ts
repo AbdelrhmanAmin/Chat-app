@@ -33,15 +33,19 @@ export const createUser = async (user: IUser) => {
   });
 };
 
-export const getAllMessages = async (quantity = 10) => {
-  const messagesRef = query(
+export const getMessagesQuery = (quantity = 10) => {
+  const q = query(
     collection(db, "messages"),
     orderBy("createdAt", "desc"),
     limit(quantity)
   );
-  const messagesSnapShot = await getDocs(messagesRef);
-  const allMessages = messagesSnapShot.docs.map((doc) => doc.data());
-  const latestMessages = allMessages.reverse();
+  return q;
+};
 
+export const getMoreMessages = async (quantity = 10) => {
+  const q = getMessagesQuery(quantity);
+  const snapShot = await getDocs(q);
+  const allMessages = snapShot.docs.map((doc) => doc.data());
+  const latestMessages = allMessages.reverse();
   return latestMessages;
 };
